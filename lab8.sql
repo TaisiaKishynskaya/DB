@@ -12,6 +12,14 @@ CREATE TABLE projects (
     name varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE project_users (
+    id int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    project_id int(10) unsigned NOT NULL,
+    user_id int(10) unsigned NOT NULL,
+    FOREIGN KEY (project_id) REFERENCES projects(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE tasks (
     id int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -39,7 +47,6 @@ CREATE TABLE files (
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
 -- Вставка користувачів
 INSERT INTO users (name) VALUES 
 ('John Doe'),
@@ -49,6 +56,12 @@ INSERT INTO users (name) VALUES
 INSERT INTO projects (name) VALUES 
 ('Project A'),
 ('Project B');
+
+-- Вставка зв'язків між проектами і користувачами
+INSERT INTO project_users (project_id, user_id) VALUES 
+(1, 1),
+(1, 2),
+(2, 1);
 
 -- Вставка завдань з вказанням автора та проекту
 INSERT INTO tasks (name, author_id, project_id) VALUES 
